@@ -14,6 +14,20 @@
         { "key": "Cache-Control", "value": "no-cache" }
       ]
     },
+        {
+      "source": "/(.*)\\.br",
+      "headers": [
+        { "key": "Content-Type", "value": "application/br" },
+        { "key": "Cache-Control", "value": "no-cache" }
+      ]
+    },
+        {
+      "source": "/(.*)\\.gz",
+      "headers": [
+        { "key": "Content-Type", "value": "application/gzip" },
+        { "key": "Cache-Control", "value": "no-cache" }
+      ]
+    },
     {
       "source": "/(.*)\\.pck",
       "headers": [
