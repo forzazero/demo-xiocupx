@@ -6,20 +6,45 @@
   "outputDirectory": ".",
   "cleanUrls": false,
   "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/index.pck",
+      "has": [{ "type": "header", "key": "accept-encoding", "value": "(.*)br(.*)" }],
+      "destination": "/index.pck.br"
+    },
+    { "source": "/index.pck", "destination": "/raw/index.pck" },
+    {
+      "source": "/index.wasm",
+      "has": [{ "type": "header", "key": "accept-encoding", "value": "(.*)br(.*)" }],
+      "destination": "/index.wasm.br"
+    },
+    { "source": "/index.wasm", "destination": "/raw/index.wasm" }
+  ],
   "headers": [
     {
-      "source": "/(.*)\\.wasm",
+      "source": "/(.*)\\.wasm(\\.br)?",
       "headers": [
         { "key": "Content-Type", "value": "application/wasm" },
-        { "key": "Cache-Control", "value": "no-cache" }
+        { "key": "Cache-Control", "value": "no-cache" },
+        { "key": "Vary", "value": "Accept-Encoding" }
       ]
     },
     {
-      "source": "/(.*)\\.pck",
+      "source": "/(.*)\\.pck(\\.br)?",
       "headers": [
         { "key": "Content-Type", "value": "application/octet-stream" },
-        { "key": "Cache-Control", "value": "no-cache" }
+        { "key": "Cache-Control", "value": "no-cache" },
+        { "key": "Vary", "value": "Accept-Encoding" }
       ]
+    },
+    {
+      "source": "/(.*)\\.br",
+      "headers": [{ "key": "Content-Encoding", "value": "br" }]
+    },
+    {
+      "source": "/index.(pck|wasm)",
+      "has": [{ "type": "header", "key": "accept-encoding", "value": "(.*)br(.*)" }],
+      "headers": [{ "key": "Content-Encoding", "value": "br" }]
     },
     {
       "source": "/",
